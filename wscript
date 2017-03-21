@@ -98,23 +98,6 @@ upnp_services = [
 
 def build(bld):
 
-    # Generated provider base classes
-    t4templatedir = bld.env['T4_TEMPLATE_PATH']
-    text_transform_exe_node = find_resource_or_fail(bld, bld.root, os.path.join(bld.env['TEXT_TRANSFORM_PATH'], 'TextTransform.exe'))
-    for service in upnp_services:
-        for t4Template, prefix, ext, args in [
-                ('CpUpnpCppHeader.tt', 'Cp', '.h', '-a buffer:1'),
-                ('CpUpnpCppBufferSource.tt', 'Cp', '.cpp', '')
-                ]:
-            t4_template_node = find_resource_or_fail(bld, bld.root, os.path.join(t4templatedir, t4Template))
-            tgt = bld.path.find_or_declare(os.path.join('Generated', prefix + service.target + ext))
-            bld(
-                rule="${MONO} " + text_transform_exe_node.abspath() + " -o " + tgt.abspath() + " " + t4_template_node.abspath() + " -a xml:../" + service.xml + " -a domain:" + service.domain + " -a type:" + service.type + " -a version:" + service.version + " " + args,
-                source=[text_transform_exe_node, t4_template_node, service.xml],
-                target=tgt
-                )
-    bld.add_group()
-
     create_copy_task(bld, ['OpenHome/Av/CpTopology.h'], 'Include/OpenHome/Av')
     bld.add_group()
 
@@ -125,9 +108,7 @@ def build(bld):
                 'OpenHome/Av/CpTopology1.cpp',
                 'OpenHome/Av/CpTopology2.cpp',
                 'OpenHome/Av/CpTopology3.cpp',
-                'OpenHome/Av/CpTopology4.cpp',
-                'Generated/CpAvOpenhomeOrgProduct1.cpp',
-                'Generated/CpAvOpenhomeOrgVolume1.cpp'
+                'OpenHome/Av/CpTopology4.cpp'
             ],
             use=['OHNET'],
             target='ohTopology')
