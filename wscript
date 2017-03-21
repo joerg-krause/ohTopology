@@ -113,37 +113,6 @@ def build(bld):
             use=['OHNET'],
             target='ohTopology')
 
-    # Tests
-    bld.program(
-            source='OpenHome/Av/Tests/TestTopology1.cpp',
-            use=['OHNET', 'ohTopology'],
-            target='TestTopology1')
-    bld.program(
-            source='OpenHome/Av/Tests/TestTopology2.cpp',
-            use=['OHNET', 'ohTopology'],
-            target='TestTopology2')
-    bld.program(
-            source='OpenHome/Av/Tests/TestTopology3.cpp',
-            use=['OHNET', 'ohTopology'],
-            target='TestTopology3')
-    bld.program(
-            source='OpenHome/Av/Tests/TestTopology4.cpp',
-            use=['OHNET', 'ohTopology'],
-            target='TestTopology4')
-    bld.program(
-            source='OpenHome/Av/Tests/TestTopology.cpp',
-            use=['OHNET', 'ohTopology'],
-            target='TestTopology')
-
-    # Bundles
-    header_files = gather_files(bld, '{top}/OpenHome/Av', ['*.h'])
-    lib_files = gather_files(bld, '{bld}', [bld.env.cxxstlib_PATTERN % 'ohTopology'])
-    bundle_files = build_tree({
-        'ohTopology/lib' : lib_files,
-        'ohTopology/Include/OpenHome/Av' : header_files
-        })
-    bundle_files.create_tgz_task(bld, 'ohTopology.tar.gz')
-
 # == Command for invoking unit tests ==
 
 def test(tst):
